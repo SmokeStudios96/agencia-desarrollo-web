@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panadería La Excelencia</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
@@ -11,19 +12,24 @@
     </style>
 </head>
 <body>
+
     <h1>🥐 Lista de Precios Actualizada 🥖</h1>
     <div id="lista-panes" class="grid">Cargando delicias desde la base de datos...</div>
 
     <script>
-        // Configuración de conexión (¡Cuidado con el traductor aquí!)
-        const SUPABASE_URL = 'sb_publishable_yaVko_O1pZFMp2wAoXIUNg_eARBsKP0';
-        const SUPABASE_KEY = 'sb_secret_CCyPBAFO3Re9ZXyLsl-glQ_eUzsCtL0'; 
+        // Configuración de conexión
+        // URL del proyecto (Project URL)
+        const SUPABASE_URL = 'https://qxngdxjfwwrzbuswqeit.supabase.co'; 
         
+        // LLave pública (Anon Key - empieza con eyJ)
+        const SUPABASE_KEY = 'TU_ANON_KEY_AQUÍ'; 
+
+        // Inicialización del cliente
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         async function cargarProductos() {
             const { data, error } = await _supabase.from('productos').select('*');
-            
+
             if (error) {
                 console.error('Error de Supabase:', error);
                 document.getElementById('lista-panes').innerHTML = 'Error al conectar con la base de datos.';
@@ -33,11 +39,11 @@
             const html = data.map(p => `
                 <div class="card">
                     <h3>${p.nombre}</h3>
-                    <p style="font-size: 1.5em; color: #d32f2f;"><b>$${p.precio}</b></p>
-                    <p>Stock disponible: ${p.stock}</p>
+                    <p>Precio: $${p.precio}</p>
+                    <small>Stock: ${p.stock} unidades</small>
                 </div>
             `).join('');
-            
+
             document.getElementById('lista-panes').innerHTML = html;
         }
 
