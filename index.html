@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panadería La Excelencia</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body { font-family: sans-serif; background: #fdf5e6; text-align: center; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; padding: 20px; }
+        .card { background: white; border: 2px solid #8d6e63; border-radius: 10px; padding: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
+    <h1>🥐 Lista de Precios Actualizada 🥖</h1>
+    <div id="lista-panes" class="grid">Cargando delicias desde la base de datos...</div>
+
+    <script>
+        // Configuración de conexión (¡Cuidado con el traductor aquí!)
+        const SUPABASE_URL = 'https://qxngdxjfwwrzbuswqeit.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_yaVko_01pZFMp2wAoXIUNg_eARBsKP0'; 
+        
+        const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        async function cargarProductos() {
+            const { data, error } = await _supabase.from('productos').select('*');
+            
+            if (error) {
+                console.error('Error de Supabase:', error);
+                document.getElementById('lista-panes').innerHTML = 'Error al conectar con la base de datos.';
+                return;
+            }
+
+            const html = data.map(p => `
+                <div class="card">
+                    <h3>${p.nombre}</h3>
+                    <p style="font-size: 1.5em; color: #d32f2f;"><b>$${p.precio}</b></p>
+                    <p>Stock disponible: ${p.stock}</p>
+                </div>
+            `).join('');
+            
+            document.getElementById('lista-panes').innerHTML = html;
+        }
+
+        cargarProductos();
+    </script>
+</body>
+</html>
