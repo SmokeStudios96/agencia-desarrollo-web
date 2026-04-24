@@ -6,41 +6,44 @@
     <title>Panadería La Excelencia</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        body { font-family: sans-serif; background: #fdf5e6; text-align: center; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; padding: 20px; }
-        .card { background: white; border: 2px solid #8d6e63; border-radius: 10px; padding: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        body { font-family: sans-serif; background: #fdf5e6; text-align: center; padding: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; max-width: 1000px; margin: 0 auto; }
+        .card { background: white; border: 2px solid #8d6e63; border-radius: 12px; padding: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        h1 { color: #5d4037; }
+        .precio { font-size: 1.2em; color: #2e7d32; font-weight: bold; }
     </style>
 </head>
 <body>
 
     <h1>🥐 Lista de Precios Actualizada 🥖</h1>
-    <div id="lista-panes" class="grid">Cargando delicias desde la base de datos...</div>
+    <div id="lista-panes" class="grid">Cargando delicias...</div>
 
     <script>
-        // Configuración de conexión
-        // URL del proyecto (Project URL)
+        // 1. Configuración (Tu URL ya está fija aquí)
         const SUPABASE_URL = 'https://qxngdxjfwwrzbuswqeit.supabase.co'; 
         
-        // LLave pública (Anon Key - empieza con eyJ)
+        // 2. PEGA AQUÍ TU CLAVE (La que empieza con eyJ que encontraste en la pestaña Legacy)
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF4bmdkeGpmd3dyemJ1c3dxZWp0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5ODkyODIsImV4cCI6MjA5MjU2NTI4Mn0.QhFZrwpAEUJ1e48gZaC5mSN_tHCzSiV8nqxHYngpfDE'; 
 
-        // Inicialización del cliente
+        // 3. Inicialización del cliente
         const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         async function cargarProductos() {
+            // Buscamos los datos en la tabla 'productos'
             const { data, error } = await _supabase.from('productos').select('*');
 
             if (error) {
-                console.error('Error de Supabase:', error);
+                console.error('Error:', error);
                 document.getElementById('lista-panes').innerHTML = 'Error al conectar con la base de datos.';
                 return;
             }
 
+            // Dibujamos las tarjetas en pantalla
             const html = data.map(p => `
                 <div class="card">
                     <h3>${p.nombre}</h3>
-                    <p>Precio: $${p.precio}</p>
-                    <small>Stock: ${p.stock} unidades</small>
+                    <p class="precio">$${p.precio}</p>
+                    <p>Stock disponible: ${p.stock} unidades</p>
                 </div>
             `).join('');
 
