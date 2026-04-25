@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Inmobiliaria Pro - Agencia IA</title>
+    <style>
+        body { font-family: sans-serif; background: #f4f4f9; margin: 0; padding: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, min-width: 300px); gap: 20px; }
+        .card { background: white; border-radius: 10px; overflow: hidden; shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .card img { width: 100%; height: 200px; object-fit: cover; }
+        .info { padding: 15px; }
+        .filtros { margin-bottom: 20px; background: white; padding: 15px; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <h1>Propiedades Disponibles (Nivel Avanzado)</h1>
+    
+    <div class="filtros">
+        <label>Filtrar por tipo:</label>
+        <select id="filtroTipo" onchange="cargarPropiedades()">
+            <option value="">Todos</option>
+            <option value="Casa">Casas</option>
+            <option value="Departamento">Departamentos</option>
+        </select>
+    </div>
+
+    <div id="lista-propiedades" class="grid">Cargando catálogo avanzado...</div>
+
+    <script src="inmobiliaria-script.js"></script>
+</body>
+</html>
